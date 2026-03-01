@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: shipping
+
+  server:
+    port: 8088
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/shipping_db
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: false
+
+  webflux:
+    base-path: /api
+
+server:
+  port: 8088
+  servlet:
+    context-path: /api
+
+# GHN Configuration
+ghn:
+  api-url: https://dev-online-gateway.ghn.vn
+  api-key: ${GHN_API_KEY:your-api-key}
+
+# GHTK Configuration
+ghtk:
+  api-url: https://api.ghtk.vn
+  api-key: ${GHTK_API_KEY:your-api-key}
+
+logging:
+  level:
+    root: INFO
+    com.ecommerce: DEBUG
+
