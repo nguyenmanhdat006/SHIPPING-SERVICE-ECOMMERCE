@@ -5,60 +5,82 @@ import com.ecommerce.shipping.enums.ShippingProvider;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Table(name = "shipments")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Shipment {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(unique = true, nullable = false, length = 50)
+    private String shipmentNumber;
 
     @Column(nullable = false)
     private String orderId;
 
-    @Column(nullable = false, unique = true)
-    private String trackingNumber;
+    @Column(nullable = false)
+    private String orderNumber;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 20)
     private ShippingProvider provider;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 30)
     private ShipmentStatus status;
 
-    @Column(nullable = false, precision = 10, scale = 2)
+    @Column(length = 100)
+    private String trackingNumber;
+
+    @Column(precision = 19, scale = 2)
     private BigDecimal shippingFee;
 
-    @Column(nullable = false)
-    private String fromAddress;
+    @Column(precision = 19, scale = 2)
+    private BigDecimal codAmount;
 
-    @Column(nullable = false)
+    @Column(length = 50)
+    private String serviceType;
+
+    @Column(nullable = false, length = 100)
+    private String toName;
+
+    @Column(nullable = false, length = 20)
+    private String toPhone;
+
+    @Column(nullable = false, length = 500)
     private String toAddress;
 
     @Column(nullable = false)
-    private String recipientName;
+    private Integer toDistrictId;
+
+    @Column(nullable = false, length = 20)
+    private String toWardCode;
 
     @Column(nullable = false)
-    private String recipientPhone;
+    private Integer weight;
 
-    @Column
-    private Integer weight; // in grams
+    private Integer length;
+    private Integer width;
+    private Integer height;
 
-    @Column
-    private String notes;
+    @Column(length = 200)
+    private String currentLocation;
+
+    private LocalDateTime pickedUpAt;
+    private LocalDateTime deliveredAt;
+    private LocalDateTime expectedDeliveryAt;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -66,15 +88,13 @@ public class Shipment {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "shipment", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @Builder.Default
-    private List<TrackingHistory> trackingHistories = new ArrayList<>();
-
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
-        status = ShipmentStatus.PENDING;
+        if (status == null) {
+            status = ShipmentStatus.PENDING;
+        }
     }
 
     @PreUpdate

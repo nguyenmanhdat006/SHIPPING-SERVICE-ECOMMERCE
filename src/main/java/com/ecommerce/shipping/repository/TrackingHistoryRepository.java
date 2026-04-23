@@ -9,6 +9,6 @@ import java.util.UUID;
 
 @Repository
 public interface TrackingHistoryRepository extends JpaRepository<TrackingHistory, UUID> {
-    List<TrackingHistory> findByShipmentIdOrderByCreatedAtDesc(UUID shipmentId);
+    List<TrackingHistory> findByShipmentIdOrderByCreatedAtDesc(Long shipmentId);
 }
 

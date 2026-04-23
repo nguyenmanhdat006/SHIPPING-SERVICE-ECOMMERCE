@@ -2,6 +2,7 @@ package com.ecommerce.shipping.controller;
 
 import com.ecommerce.shipping.dto.request.UpdateTrackingRequest;
 import com.ecommerce.shipping.dto.response.ApiResponse;
+import com.ecommerce.shipping.dto.response.TrackingResponse;
 import com.ecommerce.shipping.service.ShippingService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -19,12 +20,12 @@ public class WebhookController {
     }
 
     @PostMapping("/ghn")
-    public ResponseEntity<ApiResponse<Void>> handleGHNWebhook(
+    public ResponseEntity<ApiResponse<TrackingResponse>> handleGHNWebhook(
             @RequestBody UpdateTrackingRequest request) {
         log.info("GHN webhook received for tracking: {}", request.getTrackingNumber());
         try {
-            shippingService.updateTracking(request.getTrackingNumber());
-            return ResponseEntity.ok(ApiResponse.success(null, "GHN webhook processed successfully"));
+            TrackingResponse trackingResponse = shippingService.trackShipment(request.getTrackingNumber());
+            return ResponseEntity.ok(ApiResponse.success(trackingResponse, "GHN webhook processed successfully"));
         } catch (Exception e) {
             log.error("Error processing GHN webhook", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -33,12 +34,12 @@ public class WebhookController {
     }
 
     @PostMapping("/ghtk")
-    public ResponseEntity<ApiResponse<Void>> handleGHTKWebhook(
+    public ResponseEntity<ApiResponse<TrackingResponse>> handleGHTKWebhook(
             @RequestBody UpdateTrackingRequest request) {
         log.info("GHTK webhook received for tracking: {}", request.getTrackingNumber());
         try {
-            shippingService.updateTracking(request.getTrackingNumber());
-            return ResponseEntity.ok(ApiResponse.success(null, "GHTK webhook processed successfully"));
+            TrackingResponse trackingResponse = shippingService.trackShipment(request.getTrackingNumber());
+            return ResponseEntity.ok(ApiResponse.success(trackingResponse, "GHTK webhook processed successfully"));
         } catch (Exception e) {
             log.error("Error processing GHTK webhook", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

@@ -1,42 +1,51 @@
+server:
+  port: 8088
+
 spring:
   application:
-    name: shipping
-
-  server:
-    port: 8088
+    name: shipping-service
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/shipping_db
-    username: postgres
-    password: postgres
+    url: jdbc:postgresql://localhost:5433/shipping_db
+    username: admin
+    password: password
     driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
       ddl-auto: update
+    show-sql: true
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
-    show-sql: false
 
-  webflux:
-    base-path: /api
-
-server:
-  port: 8088
-  servlet:
-    context-path: /api
-
-# GHN Configuration
+# GHN API Configuration
+#ghn:
+#  api-url: https://dev-online-gateway.ghn.vn/shiip/public-api
+#  token: ${GHN_TOKEN:YOUR_GHN_TEST_TOKEN_HERE}
+#  shop-id: ${GHN_SHOP_ID:YOUR_SHOP_ID_HERE}
+#  from-district-id: ${GHN_FROM_DISTRICT_ID:1542}
 ghn:
-  api-url: https://dev-online-gateway.ghn.vn
-  api-key: ${GHN_API_KEY:your-api-key}
+  api-url: https://online-gateway.ghn.vn/shiip/public-api
+  token: 83702a45-3eb2-11f1-9539-161db8584fa0
+  shop-id: 6400019
+  from-district-id: 1542
 
-# GHTK Configuration
-ghtk:
-  api-url: https://api.ghtk.vn
-  api-key: ${GHTK_API_KEY:your-api-key}
+
+# Default shipping settings
+shipping:
+  default-weight: 1000
+  default-length: 20
+  default-width: 15
+  default-height: 10
+
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka/
+#  instance:
+#    prefer-ip-address: true
 
 logging:
   level:
