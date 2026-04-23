@@ -1,8 +1,7 @@
 package com.ecommerce.shipping.enums;
 
 public enum ShippingProvider {
-    GHN("Giao Hàng Nhanh"),
-    GHTK("Giao Hàng Tiết Kiệm");
+    GHN("Giao Hang Nhanh");
 
     private final String name;
 
