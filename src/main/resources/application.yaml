@@ -6,9 +6,9 @@ spring:
     name: shipping-service
 
   datasource:
-    url: jdbc:postgresql://localhost:5433/shipping_db
-    username: admin
-    password: password
+    url: jdbc:postgresql://localhost:5432/shipping_db
+    username: nguyendat
+    password: nguyendat
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -39,13 +39,6 @@ shipping:
   default-length: 20
   default-width: 15
   default-height: 10
-
-#eureka:
-#  client:
-#    service-url:
-#      defaultZone: http://localhost:8761/eureka/
-#  instance:
-#    prefer-ip-address: true
 
 logging:
   level:
