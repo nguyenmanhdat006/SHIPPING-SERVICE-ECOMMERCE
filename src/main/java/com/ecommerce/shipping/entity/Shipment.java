@@ -78,6 +78,9 @@ public class Shipment {
     @Column(length = 200)
     private String currentLocation;
 
+    @Column(columnDefinition = "text")
+    private String signature;
+
     private LocalDateTime pickedUpAt;
     private LocalDateTime deliveredAt;
     private LocalDateTime expectedDeliveryAt;
@@ -94,6 +97,9 @@ public class Shipment {
         updatedAt = LocalDateTime.now();
         if (status == null) {
             status = ShipmentStatus.PENDING;
+        }
+        if (provider == null) {
+            provider = ShippingProvider.GHN;
         }
     }
 

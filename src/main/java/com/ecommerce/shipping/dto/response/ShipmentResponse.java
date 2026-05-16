@@ -14,18 +14,16 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class ShipmentResponse implements Serializable {
-    private String id;
+    private Long id;
     private String orderId;
-    private String trackingNumber;
-    private String provider;
+    private String orderNumber;
     private String status;
     private BigDecimal shippingFee;
-    private String fromAddress;
-    private String toAddress;
+    private BigDecimal codAmount;
     private String recipientName;
     private String recipientPhone;
-    private Integer weight;
-    private String notes;
+    private String address;
+    private LocalDateTime estimatedDelivery;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

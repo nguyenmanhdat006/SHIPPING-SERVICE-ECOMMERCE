@@ -24,32 +24,26 @@ public class CreateShipmentRequest {
     private String orderNumber;
 
     @NotBlank(message = "Recipient name is required")
-    private String toName;
+    private String recipientName;
 
     @NotBlank(message = "Phone is required")
     @Pattern(regexp = "^(0|\\+84)[0-9]{9,10}$", message = "Invalid phone number")
-    private String toPhone;
+    private String phone;
 
     @NotBlank(message = "Address is required")
-    private String toAddress;
+    private String address;
 
-    @NotNull(message = "District ID is required")
-    private Integer toDistrictId;
-
-    @NotBlank(message = "Ward code is required")
-    private String toWardCode;
-
-    @NotNull(message = "Weight is required")
-    @Min(value = 1, message = "Weight must be at least 1 gram")
-    private Integer weight;
-
-    private Integer length;
-    private Integer width;
-    private Integer height;
+    @NotNull(message = "Shipping fee is required")
+    @DecimalMin(value = "0", message = "Shipping fee must be at least 0")
+    private BigDecimal shippingFee;
 
     @NotNull(message = "COD amount is required")
     @DecimalMin(value = "0", message = "COD amount must be at least 0")
     private BigDecimal codAmount;
+
+    @NotNull(message = "Estimated days is required")
+    @Min(value = 1, message = "Estimated days must be at least 1")
+    private Integer estimatedDays;
 
     private String note;
 }

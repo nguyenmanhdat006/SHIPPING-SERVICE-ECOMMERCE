@@ -15,9 +15,12 @@ import java.time.LocalDateTime;
 public class CreateShipmentResponse {
     private Long shipmentId;
     private String shipmentNumber;
-    private String trackingNumber;
-    private String provider;
+    private String orderId;
+    private String orderNumber;
+    private String status;
     private BigDecimal shippingFee;
+    private BigDecimal codAmount;
     private LocalDateTime estimatedDelivery;
+    private LocalDateTime createdAt;
 }
 
