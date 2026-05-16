@@ -1,5 +1,6 @@
 package com.ecommerce.shipping.dto.request;
 
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -8,23 +9,26 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class CalculateFeeRequest {
 
-    @NotNull(message = "District ID is required")
-    private Integer toDistrictId;
+    @NotBlank(message = "City is required")
+    private String city;
 
-    @NotBlank(message = "Ward code is required")
-    private String toWardCode;
+    @NotBlank(message = "Province is required")
+    private String province;
 
     @NotNull(message = "Weight is required")
     @Min(value = 1, message = "Weight must be at least 1 gram")
     private Integer weight;
 
-    @Builder.Default
-    private Integer serviceTypeId = 2;
+    @NotNull(message = "Order value is required")
+    @DecimalMin(value = "0", message = "Order value must be at least 0")
+    private BigDecimal orderValue;
 }
 

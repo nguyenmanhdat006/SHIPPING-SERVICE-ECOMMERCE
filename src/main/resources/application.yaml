@@ -20,18 +20,6 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
 
-# GHN API Configuration
-#ghn:
-#  api-url: https://dev-online-gateway.ghn.vn/shiip/public-api
-#  token: ${GHN_TOKEN:YOUR_GHN_TEST_TOKEN_HERE}
-#  shop-id: ${GHN_SHOP_ID:YOUR_SHOP_ID_HERE}
-#  from-district-id: ${GHN_FROM_DISTRICT_ID:1542}
-ghn:
-  api-url: https://online-gateway.ghn.vn/shiip/public-api
-  token: 83702a45-3eb2-11f1-9539-161db8584fa0
-  shop-id: 6400019
-  from-district-id: 1542
-
 
 # Default shipping settings
 shipping:

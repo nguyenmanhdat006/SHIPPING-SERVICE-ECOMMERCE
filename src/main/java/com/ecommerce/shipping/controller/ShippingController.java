@@ -4,9 +4,11 @@ import com.ecommerce.shipping.dto.request.CalculateFeeRequest;
 import com.ecommerce.shipping.dto.request.CreateShipmentRequest;
 import com.ecommerce.shipping.dto.response.CalculateFeeResponse;
 import com.ecommerce.shipping.dto.response.CreateShipmentResponse;
-import com.ecommerce.shipping.dto.response.TrackingResponse;
+import com.ecommerce.shipping.dto.response.ShipmentResponse;
+import com.ecommerce.shipping.enums.ShipmentStatus;
 import com.ecommerce.shipping.service.ShippingService;
 import jakarta.validation.Valid;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +26,7 @@ public class ShippingController {
     @PostMapping("/calculate-fee")
     public ResponseEntity<CalculateFeeResponse> calculateShippingFee(
             @Valid @RequestBody CalculateFeeRequest request) {
-        log.info("Calculating shipping fee for district: {}", request.getToDistrictId());
+        log.info("Calculating shipping fee for city: {}, province: {}", request.getCity(), request.getProvince());
         return ResponseEntity.ok(shippingService.calculateFee(request));
     }
 
@@ -35,18 +37,37 @@ public class ShippingController {
         return ResponseEntity.ok(shippingService.createShipment(request));
     }
 
-    @GetMapping("/order/{orderId}")
-    public ResponseEntity<CreateShipmentResponse> getShipmentByOrder(
-            @PathVariable String orderId) {
-        log.info("Getting shipment for order: {}", orderId);
-        return ResponseEntity.ok(shippingService.getShipmentByOrderId(orderId));
+    @GetMapping("/{id}")
+    public ResponseEntity<ShipmentResponse> getShipmentById(@PathVariable Long id) {
+        log.info("Getting shipment by id: {}", id);
+        return ResponseEntity.ok(shippingService.getShipmentById(id));
     }
 
-    @GetMapping("/track/{trackingNumber}")
-    public ResponseEntity<TrackingResponse> getShipmentByTracking(
-            @PathVariable String trackingNumber) {
-        log.info("Tracking shipment: {}", trackingNumber);
-        return ResponseEntity.ok(shippingService.trackShipment(trackingNumber));
+    @PutMapping("/{id}/status")
+    public ResponseEntity<ShipmentResponse> updateStatus(
+            @PathVariable Long id,
+            @RequestBody ShipmentStatusRequest request) {
+        log.info("Updating shipment status for {} to {}", id, request.getStatus());
+        return ResponseEntity.ok(shippingService.updateShipmentStatus(id, request.getStatus()));
+    }
+
+    @PutMapping("/{id}/deliver")
+    public ResponseEntity<ShipmentResponse> markDelivered(
+            @PathVariable Long id,
+            @RequestBody DeliverShipmentRequest request) {
+        log.info("Marking shipment delivered: {}", id);
+        return ResponseEntity.ok(shippingService.markDelivered(id, request.getDeliveredAt(), request.getSignature()));
+    }
+
+    @Data
+    public static class ShipmentStatusRequest {
+        private ShipmentStatus status;
+    }
+
+    @Data
+    public static class DeliverShipmentRequest {
+        private java.time.LocalDateTime deliveredAt;
+        private String signature;
     }
 }
 
