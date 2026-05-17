@@ -1,14 +1,24 @@
 server:
-  port: 8088
+  port: ${SERVER_PORT:8088}
 
 spring:
+  config:
+    import: optional:file:.env[.properties]
+
   application:
     name: shipping-service
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_ISSUER_URI:https://usw2.auth.ac/auth/realms/ecommerce}
+          jwk-set-uri: ${KEYCLOAK_JWK_URI:https://usw2.auth.ac/auth/realms/ecommerce/protocol/openid-connect/certs}
+
   datasource:
-    url: jdbc:postgresql://localhost:5432/shipping_db
-    username: nguyendat
-    password: nguyendat
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/shipping_db}
+    username: ${DB_USERNAME:nguyendat}
+    password: ${DB_PASSWORD:nguyendat}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -20,8 +30,6 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
 
-
-# Default shipping settings
 shipping:
   default-weight: 1000
   default-length: 20
@@ -31,5 +39,5 @@ shipping:
 logging:
   level:
     root: INFO
-    com.ecommerce: DEBUG
+    com.ecommerce: ${LOGGING_LEVEL_COM_ECOMMERCE:DEBUG}
 
